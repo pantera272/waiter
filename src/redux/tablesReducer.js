@@ -8,10 +8,12 @@ export const getTableById = ({tables}, id) => tables.find(table => table.id === 
 const UPDATE_TABLES = createActionName('UPDATE_TABLES');
 export const updateTables = payload => ({type: UPDATE_TABLES, payload});
 
-export const fetchTables = dispatch =>{
-  fetch('http://localhost:3131/api/tables')
+export const fetchTables = () => {
+  return (dispatch) => {
+    fetch('http://localhost:3131/api/tables')
   .then(res => res.json())
   .then(tables => dispatch(updateTables(tables)));
+  } 
 }
 
 const tablesReducer = (statePart = [], action) =>{

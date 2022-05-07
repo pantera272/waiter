@@ -2,13 +2,14 @@ import clsx from "clsx";
 import { useEffect, useState } from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router";
+import {  useParams } from "react-router";
+import { Navigate } from "react-router-dom";
 import { getTableById } from "../../redux/tablesReducer";
 import styles from "../../styles/hidden.module.scss";
 
 const ShowTableByID = () => {
   const { id } = useParams();
-
+  
   const table = useSelector(state => getTableById(state, parseInt(id)));
 
   const [status, setStatus] = useState(table.status);
@@ -33,9 +34,6 @@ const ShowTableByID = () => {
     const valueMaxPeopleAmount = parseInt(maxPeopleAmount);
     
     if(Number.isInteger(valuePeopleAmount) && Number.isInteger(valueMaxPeopleAmount)){
-      
-      console.log("liczba :", valuePeopleAmount)
-      console.log("liczba max :", valueMaxPeopleAmount)
 
       setErrorAmount(false);
 
@@ -59,63 +57,69 @@ const ShowTableByID = () => {
     }
   },[peopleAmount, maxPeopleAmount])
 
-  return (
-    <>
-      <Row>
-        <Col><h1>Table {table.id}</h1></Col>
-      </Row>
-      <Form>
-        <Form.Group as={Row}>
-          <Form.Label column sm={2}>
-            Status
-          </Form.Label>
-          <Col sm={4}>
-            <Form.Select defaultValue={status} onChange={e => setStatus(e.target.value)}>
-              <option value="Reserved">Reserved</option>
-              <option value="Free">Free</option>
-              <option value="Clining">Clining</option>
-              <option value="Busy">Busy</option>
-            </Form.Select>
-          </Col>    
-        </Form.Group>
-
-        <Form.Group as={Row} className="mt-4 mb-4">
-          <Col sm={2}>
-            <Form.Label>
-              People
-            </Form.Label>
-          </Col>
-          <Col sm={2}>
-            <Form.Control type="text" value={peopleAmount} onChange={e => setPeopleAmount(e.target.value)}/>
-          </Col>
-          <Col sm={2}>
-          <Form.Label>
-            Max people
-          </Form.Label>   
-          </Col>
-          <Col sm={2}>
-            <Form.Control type="text" value={maxPeopleAmount} onChange={e => setMaxPeopleAmount(e.target.value)}/>
-          </Col>
-          {errorAmount && <small className="d-block form-text text-danger mt-2">Please insert correct value (0-10)</small>}
-        </Form.Group>
-        
-        <div className={clsx(status !== "Busy" && styles.hidden)}>
+  if(table === undefined){
+    return ( 
+      <Navigate to='/home' />
+    )
+  } else {
+    return (
+      <>
+        <Row>
+          <Col><h1>Table {table.id}</h1></Col>
+        </Row>
+        <Form>
           <Form.Group as={Row}>
             <Form.Label column sm={2}>
-              Bill
+              Status
             </Form.Label>
-            <Col sm={2}>
-              <Form.Control type="text" value={bill} onChange={e => setBill(e.target.value)}/>  
-            </Col>  
-            <Col>$</Col>
+            <Col sm={4}>
+              <Form.Select defaultValue={status} onChange={e => setStatus(e.target.value)}>
+                <option value="Reserved">Reserved</option>
+                <option value="Free">Free</option>
+                <option value="Clining">Clining</option>
+                <option value="Busy">Busy</option>
+              </Form.Select>
+            </Col>    
           </Form.Group>
-        </div>  
-        
-      
-        <Button variant="primary" className="mt-4">Update</Button>
 
-      </Form>    
-    </>
-  )
+          <Form.Group as={Row} className="mt-4 mb-4">
+            <Col sm={2}>
+              <Form.Label>
+                People
+              </Form.Label>
+            </Col>
+            <Col sm={2}>
+              <Form.Control type="text" value={peopleAmount} onChange={e => setPeopleAmount(e.target.value)}/>
+            </Col>
+            <Col sm={2}>
+            <Form.Label>
+              Max people
+            </Form.Label>   
+            </Col>
+            <Col sm={2}>
+              <Form.Control type="text" value={maxPeopleAmount} onChange={e => setMaxPeopleAmount(e.target.value)}/>
+            </Col>
+            {errorAmount && <small className="d-block form-text text-danger mt-2">Please insert correct value (0-10)</small>}
+          </Form.Group>
+          
+          <div className={clsx(status !== "Busy" && styles.hidden)}>
+            <Form.Group as={Row}>
+              <Form.Label column sm={2}>
+                Bill
+              </Form.Label>
+              <Col sm={2}>
+                <Form.Control type="text" value={bill} onChange={e => setBill(e.target.value)}/>  
+              </Col>  
+              <Col>$</Col>
+            </Form.Group>
+          </div>  
+          
+        
+          <Button variant="primary" className="mt-4">Update</Button>
+
+        </Form>    
+      </>
+    )
+  }  
 }
 export default ShowTableByID;
