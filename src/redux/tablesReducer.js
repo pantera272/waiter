@@ -35,7 +35,7 @@ export const updateTableRequest = (update) => {
       }),
     }
  
-    fetch(`${API_URL}/tables/` + update.id, options)
+    fetch(`${API_URL}/tables/${update.id}`, options)
     .then(() => dispatch(editTable(update)));
   }
 }
