@@ -1,16 +1,20 @@
 import clsx from "clsx";
 import { useEffect, useState } from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {  useParams } from "react-router";
 import { Navigate } from "react-router-dom";
-import { getTableById } from "../../redux/tablesReducer";
+import { getTableById, updateTableRequest } from "../../redux/tablesReducer";
 import styles from "../../styles/hidden.module.scss";
+import { useNavigate } from "react-router";
 
 const ShowTableByID = () => {
   const { id } = useParams();
   
   const table = useSelector(state => getTableById(state, parseInt(id)));
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [status, setStatus] = useState(table.status);
   const [peopleAmount, setPeopleAmount] = useState(table.peopleAmount);
@@ -57,7 +61,16 @@ const ShowTableByID = () => {
     }
   },[peopleAmount, maxPeopleAmount])
 
-  if(table === undefined){
+  const handleSubmit = e => {
+    e.preventDefault();
+    if(errorAmount === false){
+      const data = { id, status, peopleAmount, maxPeopleAmount, bill };
+      dispatch(updateTableRequest(data));
+      navigate('/');
+    }
+  }
+
+  if(!table){
     return ( 
       <Navigate to='/home' />
     )
@@ -115,7 +128,7 @@ const ShowTableByID = () => {
           </div>  
           
         
-          <Button variant="primary" className="mt-4">Update</Button>
+          <Button variant="primary" className="mt-4" onClick={e => handleSubmit(e)}>Update</Button>
 
         </Form>    
       </>

@@ -20,8 +20,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
-          <Route path="/table/:id" element={<Table />} />
           <Route path="*" element={<PageNotFound />} />
+          <Route path="/table/:id" element={<Table />} />
         </Routes>
       </Container>
     </main>
