@@ -8,17 +8,17 @@
       "id": 1
     },
     {
-      "status": "Busy",
-      "peopleAmount": 1,
+      "status": "Reserved",
+      "peopleAmount": 0,
       "maxPeopleAmount": 3,
       "bill": 0,
       "id": 2
     },
     {
       "status": "Busy",
-      "peopleAmount": 3,
+      "peopleAmount": 0,
       "maxPeopleAmount": 3,
-      "bill": 45,
+      "bill": 0,
       "id": 3
     },
     {
