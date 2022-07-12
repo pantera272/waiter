@@ -1,14 +1,14 @@
 {
   "tables": [
     {
-      "status": "Free",
+      "status": "Reserved",
       "peopleAmount": 0,
       "maxPeopleAmount": 3,
       "bill": 0,
       "id": 1
     },
     {
-      "status": "Clining",
+      "status": "Busy",
       "peopleAmount": 1,
       "maxPeopleAmount": 3,
       "bill": 0,

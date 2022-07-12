@@ -25,8 +25,9 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "server": "json-server --port 3131 --no-cors --delay 250 --watch public/db/app.json --routes public/db/routes.json",
+    "start": "npm-run-all -p start:*",
+    "start:react": "react-scripts start",
+    "start:server": "json-server --port 3131 --no-cors --delay 250 --watch public/db/app.json --routes public/db/routes.json",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
